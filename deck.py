@@ -1,5 +1,14 @@
 class AbsDeck:
+    """
+    abstract deck, representing the makeup
+    """
     def __init__(self, count=13, suits=4, wild=0):
+        """
+        Args:
+            count: number of unique card numbers
+            suits: number of suits (copies of each card)
+            wild: number of joker cards
+        """
         self.count = count
         self.suits = suits
         self.wild = wild

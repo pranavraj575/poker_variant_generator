@@ -12,7 +12,11 @@ def log_choose(n, k):
     return np.sum(np.log(np.arange(k) + n - k + 1)) - np.sum(np.log(np.arange(k) + 1))
 
 
-class Hand:
+class HandType:
+    """
+    type of hand, used to determine probabilities of obtaining a hand (combinatorially)
+    if a game includes various hand types, these can be ranked by probability of obtaining
+    """
     def __init__(self, size=5):
         self.size = size
 
@@ -35,7 +39,7 @@ class Hand:
             return self.log_count(deck=deck)
 
 
-class kOfAKindChain(Hand):
+class kOfAKindChain(HandType):
     """
     exactly k_1,k_2,... copies of a card (not at least)
     TODO: ignoring wild cards for now
@@ -63,7 +67,7 @@ class kOfAKindChain(Hand):
         return s
 
 
-class kOfAKind(Hand):
+class kOfAKind(HandType):
     """
     exactly k copies of a card (not at least k)
     other cards will be non-copies
@@ -94,7 +98,7 @@ class kOfAKind(Hand):
             return kay + log_choose(deck.count - 1, self.size - self.k) + (self.size - self.k)*np.log(deck.suits)
 
 
-class StraightFlush(Hand):
+class StraightFlush(HandType):
     """
     TODO: ignoring wild cards for now
     """
@@ -108,7 +112,7 @@ class StraightFlush(Hand):
         return np.log(starting_positions*deck.suits)
 
 
-class Straight(Hand):
+class Straight(HandType):
     """
     TODO: ignoring wild cards for now
     """
@@ -127,7 +131,7 @@ class Straight(Hand):
             return np.log(starting_positions) + self.size*np.log(deck.suits)
 
 
-class Flush(Hand):
+class Flush(HandType):
     """
     TODO: ignoring wild cards for now
     """
@@ -146,7 +150,7 @@ class Flush(Hand):
             return np.log(deck.suits) + log_choose(deck.count, self.size)
 
 
-class HighCard(Hand):
+class HighCard(HandType):
     """
     log count for this will be inf, as this is the worst hand
     """
